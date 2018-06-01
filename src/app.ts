@@ -2,10 +2,15 @@ import * as Koa from 'koa'
 import * as Router from 'koa-router'
 import User from './controller/user'
 const  bodyParser = require('koa-bodyparser')
-import getAudio from './controller/yt'
+import {getAudio} from './controller/yt'
+import getPlaylist from './controller/googleAPI'
+
 
 const app = new Koa();
 const _r = new Router();
+
+
+
 
 app.use(bodyParser())
 
@@ -37,6 +42,19 @@ _r.post('/youtube', async (ctx) => {
     getAudio(url);
 
     ctx.response.status =200;
+});
+
+
+_r.post('/yt-playlist', async (ctx) =>{
+    console.log(ctx.request.body);
+
+    const url = ctx.request.body['yt-playlist'];
+
+  
+     getPlaylist(url).then(arr => console.log(arr));
+    
+    ctx.response.status = 200;
+
 });
 
 
